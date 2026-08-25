@@ -1,0 +1,58 @@
+{
+  "name": "ReqRunner",
+  "scopeName": "source.reqrunner",
+  "patterns": [
+    { "include": "#separator" },
+    { "include": "#comment" },
+    { "include": "#variable-definition" },
+    { "include": "#request-line" },
+    { "include": "#header-line" },
+    { "include": "#template-variable" }
+  ],
+  "repository": {
+    "separator": {
+      "match": "^\\s*(###)[ \\t]*(.*)$",
+      "captures": {
+        "1": { "name": "punctuation.definition.separator.reqrunner" },
+        "2": { "name": "entity.name.section.reqrunner" }
+      }
+    },
+    "comment": {
+      "match": "^\\s*(//|#(?!##)).*$",
+      "name": "comment.line.reqrunner"
+    },
+    "variable-definition": {
+      "match": "^\\s*(@)([A-Za-z0-9_.-]+)\\s*(=)\\s*(.*)$",
+      "captures": {
+        "1": { "name": "punctuation.definition.variable.reqrunner" },
+        "2": { "name": "variable.other.definition.reqrunner" },
+        "3": { "name": "keyword.operator.assignment.reqrunner" },
+        "4": { "name": "string.unquoted.reqrunner" }
+      }
+    },
+    "request-line": {
+      "match": "^\\s*(GET|POST|PUT|PATCH|DELETE|HEAD|OPTIONS)\\s+(\\S+)(?:\\s+(HTTP/[0-9.]+))?\\s*$",
+      "captures": {
+        "1": { "name": "keyword.control.request.method.reqrunner" },
+        "2": { "name": "markup.underline.link.reqrunner" },
+        "3": { "name": "constant.language.http-version.reqrunner" }
+      }
+    },
+    "header-line": {
+      "match": "^\\s*([A-Za-z0-9_-]+)\\s*(:)\\s*(.*)$",
+      "captures": {
+        "1": { "name": "support.type.property-name.header.reqrunner" },
+        "2": { "name": "punctuation.separator.key-value.reqrunner" },
+        "3": { "name": "string.unquoted.header-value.reqrunner" }
+      }
+    },
+    "template-variable": {
+      "match": "(\\{\\{)\\s*([^{}]+?)\\s*(\\}\\})",
+      "captures": {
+        "1": { "name": "punctuation.definition.template-expression.begin.reqrunner" },
+        "2": { "name": "variable.other.reqrunner" },
+        "3": { "name": "punctuation.definition.template-expression.end.reqrunner" }
+      }
+    }
+  }
+}

@@ -1,0 +1,44 @@
+# Sample requests against a public test API.
+# Variables come from .reqrunner.env.json in this folder.
+
+### Get all bookings
+
+GET {{baseUrl}}/posts
+
+Accept: application/json
+
+### Get one booking
+
+GET {{baseUrl}}/posts/1
+
+Accept: application/json
+
+### Create booking
+
+POST {{baseUrl}}/posts
+
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "customer": "John",
+  "route": "Chennai-Bangalore",
+  "userId": 1
+}
+
+### Update booking
+
+PUT {{baseUrl}}/posts/1
+
+Content-Type: application/json
+
+{
+  "id": 1,
+  "customer": "John",
+  "route": "Chennai-Coimbatore",
+  "userId": 1
+}
+
+### Cancel booking
+
+DELETE {{baseUrl}}/posts/1

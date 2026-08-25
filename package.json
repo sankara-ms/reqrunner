@@ -1,0 +1,237 @@
+{
+  "name": "reqrunner",
+  "displayName": "ReqRunner",
+  "description": "Lightweight inline REST API client for VS Code. Write requests in .reqrunner files and run them with a click.",
+  "version": "1.0.0",
+  "publisher": "sankara-ms",
+  "license": "MIT",
+  "icon": "media/icon.png",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Testing",
+    "Other"
+  ],
+  "keywords": [
+    "rest",
+    "rest client",
+    "http",
+    "api",
+    "api client"
+  ],
+  "galleryBanner": {
+    "color": "#0D1B2A",
+    "theme": "dark"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sankara-ms/reqrunner.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sankara-ms/reqrunner/issues"
+  },
+  "homepage": "https://github.com/sankara-ms/reqrunner#readme",
+  "sponsor": {
+    "url": "https://github.com/sponsors/sankara-ms"
+  },
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "reqrunner",
+        "aliases": [
+          "ReqRunner",
+          "reqrunner"
+        ],
+        "extensions": [
+          ".reqrunner"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "media/file-icon.svg",
+          "dark": "media/file-icon.svg"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "reqrunner",
+        "scopeName": "source.reqrunner",
+        "path": "./syntaxes/reqrunner.tmLanguage.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "reqrunner.sendRequest",
+        "title": "Send Request",
+        "category": "ReqRunner",
+        "icon": "$(play)"
+      },
+      {
+        "command": "reqrunner.sendRequestAtCursor",
+        "title": "Send Request At Cursor",
+        "category": "ReqRunner",
+        "icon": "$(play)"
+      },
+      {
+        "command": "reqrunner.newFile",
+        "title": "New .reqrunner File",
+        "category": "ReqRunner",
+        "icon": "$(new-file)"
+      },
+      {
+        "command": "reqrunner.refreshSavedRequests",
+        "title": "Refresh Saved Requests",
+        "category": "ReqRunner",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "reqrunner.openRequest",
+        "title": "Open Request",
+        "category": "ReqRunner"
+      },
+      {
+        "command": "reqrunner.createEnvFile",
+        "title": "Create Environment File",
+        "category": "ReqRunner",
+        "icon": "$(gear)"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        {
+          "command": "reqrunner.sendRequest",
+          "when": "false"
+        },
+        {
+          "command": "reqrunner.openRequest",
+          "when": "false"
+        },
+        {
+          "command": "reqrunner.sendRequestAtCursor",
+          "when": "resourceExtname == .reqrunner"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "reqrunner.newFile",
+          "when": "view == reqrunner.savedRequests",
+          "group": "navigation@1"
+        },
+        {
+          "command": "reqrunner.refreshSavedRequests",
+          "when": "view == reqrunner.savedRequests",
+          "group": "navigation@2"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "reqrunner.sendRequestAtCursor",
+          "when": "resourceExtname == .reqrunner",
+          "group": "navigation"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "reqrunner.sendRequestAtCursor",
+        "key": "ctrl+alt+r",
+        "mac": "cmd+alt+r",
+        "when": "editorTextFocus && resourceExtname == .reqrunner"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "reqrunner",
+          "title": "ReqRunner",
+          "icon": "media/activity-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "reqrunner": [
+        {
+          "id": "reqrunner.savedRequests",
+          "name": "Saved Requests",
+          "icon": "media/activity-icon.svg",
+          "contextualTitle": "ReqRunner"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "reqrunner.savedRequests",
+        "contents": "No .reqrunner files found in this workspace.\n[Create a .reqrunner file](command:reqrunner.newFile)\n\nRequests are defined in plain text files using `###` blocks."
+      }
+    ],
+    "configuration": {
+      "title": "ReqRunner",
+      "properties": {
+        "reqrunner.timeout": {
+          "type": "number",
+          "default": 30000,
+          "minimum": 1000,
+          "markdownDescription": "Request timeout in milliseconds."
+        },
+        "reqrunner.followRedirects": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Follow HTTP 3xx redirects automatically."
+        },
+        "reqrunner.maxRedirects": {
+          "type": "number",
+          "default": 5,
+          "minimum": 0,
+          "markdownDescription": "Maximum number of redirects to follow."
+        },
+        "reqrunner.rejectUnauthorized": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Reject invalid or self-signed TLS certificates. Disable only for trusted local development servers."
+        },
+        "reqrunner.envFileName": {
+          "type": "string",
+          "default": ".reqrunner.env.json",
+          "markdownDescription": "Name of the environment variables file that ReqRunner looks for next to the request file and in parent folders."
+        },
+        "reqrunner.showCodeLens": {
+          "type": "boolean",
+          "default": true,
+          "markdownDescription": "Show the `▶ Send Request` CodeLens above each request block."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run check-types && npm run bundle -- --production",
+    "bundle": "node esbuild.js",
+    "compile": "npm run check-types && npm run bundle",
+    "watch": "node esbuild.js --watch",
+    "check-types": "tsc --noEmit -p tsconfig.json",
+    "compile-tests": "tsc -p tsconfig.test.json",
+    "pretest": "npm run compile-tests",
+    "test": "npm run test:unit",
+    "test:unit": "node --test \"out/test/unit/*.test.js\"",
+    "pretest:integration": "npm run compile && npm run compile-tests",
+    "test:integration": "node out/test/integration/runTests.js",
+    "test:packaged": "npm run compile-tests && node out/test/integration/runPackagedTests.js",
+    "test:all": "npm run compile && npm run compile-tests && npm run test:unit && npm run test:integration",
+    "package": "vsce package",
+    "publish": "vsce publish",
+    "validate": "npm run compile && npm run compile-tests && npm run test:unit && npm run test:integration && npm run package && npm run test:packaged"
+  },
+  "devDependencies": {
+    "@types/node": "22.13.1",
+    "@types/vscode": "1.85.0",
+    "@vscode/test-electron": "2.4.1",
+    "@vscode/vsce": "3.2.2",
+    "esbuild": "0.24.2",
+    "typescript": "5.7.3"
+  }
+}

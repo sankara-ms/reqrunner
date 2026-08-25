@@ -1,0 +1,27 @@
+### Get users
+GET {{baseUrl}}/users
+Accept: application/json
+
+### Get user by id
+GET {{baseUrl}}/users/2
+Accept: application/json
+
+### Create user
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "name": "Ada Lovelace",
+  "email": "ada@example.com"
+}
+
+### Patch user
+PATCH {{baseUrl}}/users/2
+Content-Type: application/json
+
+{
+  "email": "ada.updated@example.com"
+}
+
+### Not found on purpose
+GET {{baseUrl}}/this-path-does-not-exist
